@@ -1,0 +1,135 @@
+/* Импортируем Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Базовые стили для всего приложения */
+:root {
+  --primary-color: #3B82F6;
+  --primary-hover: #2563EB;
+  --success-color: #10B981;
+  --warning-color: #F59E0B;
+  --error-color: #EF4444;
+  --dark-bg: #111827;
+  --card-bg: #1F2937;
+  --border-color: #374151;
+}
+
+/* Базовые стили для всей страницы */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--dark-bg);
+  color: white;
+}
+
+/* Стили для кода */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Кастомные стили для scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1F2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4B5563;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6B7280;
+}
+
+/* Анимации */
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Стили для кнопок управления графиком */
+#chart-controls-panel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+}
+
+#chart-controls-panel button {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+#chart-controls-panel button:hover {
+  opacity: 0.9;
+}
+/* Дополнительные цвета фона для карточек и графиков */
+.bg-gray-750 {
+  background-color: #283141;
+}
+
+.bg-gray-850 {
+  background-color: #141c2c;
+}
+
+/* Кастомные тени */
+.shadow-card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Стили для графиков */
+.chart-container {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+
+/* Стили для выпадающих меню */
+.dropdown-menu {
+  @apply bg-gray-800 border border-gray-700 rounded-lg shadow-lg py-1 w-48;
+}
+
+.dropdown-item {
+  @apply px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer flex items-center;
+}
