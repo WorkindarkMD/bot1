@@ -292,8 +292,8 @@ namespace cAlgo.Robots
 
     }
 
-        // Grant full access for file operations (per user request)
-        [Robot(TimeZone = TimeZones.UTC, AccessRights = AccessRights.FullAccess)]
+        // Cloud execution forbids file system access; limit rights
+        [Robot(TimeZone = TimeZones.UTC, AccessRights = AccessRights.None)]
 
     public class OlympianQuantumTrader : Robot
 
