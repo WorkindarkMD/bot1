@@ -1639,8 +1639,8 @@ namespace cAlgo.Robots
             Log(LogLevel.Debug, "Таймер запущен (1с)");
 
             // Subscribe to position events (API without override)
-            try { Positions.Opened += OnPositionsOpened; } catch { }
-            try { Positions.Closed += OnPositionsClosed; } catch { }
+            try { Positions.Opened += OnPositionOpened; } catch { }
+            try { Positions.Closed += OnPositionClosed; } catch { }
 
         }
 
@@ -4362,7 +4362,7 @@ namespace cAlgo.Robots
             MetalsTP = metalsTP;
         }
 
-        private void OnPositionsOpened(PositionOpenedEventArgs args)
+        private void OnPositionOpened(PositionOpenedEventArgs args)
         {
             try
             {
@@ -4372,7 +4372,7 @@ namespace cAlgo.Robots
             catch { }
         }
 
-        private void OnPositionsClosed(PositionClosedEventArgs args)
+        private void OnPositionClosed(PositionClosedEventArgs args)
         {
             try
             {
@@ -5550,8 +5550,8 @@ namespace cAlgo.Robots
         protected override void OnStop()
 
         {
-            try { Positions.Opened -= OnPositionsOpened; } catch { }
-            try { Positions.Closed -= OnPositionsClosed; } catch { }
+            try { Positions.Opened -= OnPositionOpened; } catch { }
+            try { Positions.Closed -= OnPositionClosed; } catch { }
             Log(LogLevel.Info, "Вызван OnStop");
 
             Print("====== QUANTUM TRADER ОСТАНОВЛЕН ======");
