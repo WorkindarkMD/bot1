@@ -1,0 +1,9 @@
+{
+  "EmergencyStopLossPercent": 3.0,
+  "NetLossAbsTarget": 50.0,
+  "PerPositionLossTargetCurrency": 5.0,
+  "AutoCloseCheckIntervalSeconds": 1,
+  "MitigationStepMinFraction": 0.5,
+  "MitigationStepMaxFraction": 1.0,
+  "MaxMinutesInTradeBeforeDecay": 5
+}
