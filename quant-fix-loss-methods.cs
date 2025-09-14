@@ -317,12 +317,12 @@ namespace cAlgo.Robots
 
         private void InitLogger()
         {
-            Log(LogLevel.Info, "Logger initialized");
+            Log(LogLevel.Info, "Логгер инициализирован");
         }
 
         private void CloseLogger()
         {
-            Log(LogLevel.Info, "Logger closing");
+            Log(LogLevel.Info, "Логгер закрывается");
         }
 
         // Converts absolute TP/SL prices to pip distances for order APIs
@@ -1181,7 +1181,7 @@ namespace cAlgo.Robots
                 }
                 double width = maxH - minL; // � �������� ���� (��� XAUUSD ? USD)
                 bool compressed = width <= Math.Max(0.01, RangeCompressionWidthUSD);
-                if (compressed) Log(LogLevel.Debug, $"Range compressed: width={width:F2} ? {RangeCompressionWidthUSD:F2} in {need}m");
+                if (compressed) Log(LogLevel.Debug, $"Диапазон сжат: ширина={width:F2} ≤ {RangeCompressionWidthUSD:F2} за {need}м");
                 return compressed;
             }
             catch { return false; }
@@ -1210,7 +1210,7 @@ namespace cAlgo.Robots
                 double tpNew = t.tp.Value;
                 if (tradeType == TradeType.Buy) tpNew = Math.Min(tpNew, lim); else tpNew = Math.Max(tpNew, lim);
                 if (Math.Abs(tpNew - t.tp.Value) > Symbol.PipSize)
-                    Log(LogLevel.Info, $"Adaptive TP applied: old={t.tp.Value:F2} new={tpNew:F2} (entry={entryPrice:F2})");
+                    Log(LogLevel.Info, $"Применён адаптивный TP: старый={t.tp.Value:F2} новый={tpNew:F2} (вход={entryPrice:F2})");
                 return (NormalizePrice(tpNew), t.sl);
             }
             catch { return t; }
@@ -1221,7 +1221,7 @@ namespace cAlgo.Robots
         {
             try
             {
-                Log(LogLevel.Info, $"ExecuteMarketOrder {tradeType} {symbolName} vol={volumeInUnits:F2} label={label} slPips={stopLossPips?.ToString("F1") ?? "-"} tpPips={takeProfitPips?.ToString("F1") ?? "-"}");
+                Log(LogLevel.Info, $"Рыночный ордер {tradeType} {symbolName} объём={volumeInUnits:F2} метка={label} slPips={stopLossPips?.ToString("F1") ?? "-"} tpPips={takeProfitPips?.ToString("F1") ?? "-"}");
             }
             catch { }
             var res = base.ExecuteMarketOrder(tradeType, symbolName, volumeInUnits, label, stopLossPips, takeProfitPips);
@@ -1236,7 +1236,7 @@ namespace cAlgo.Robots
 
         public TradeResult PlaceLimitOrder(TradeType tradeType, string symbolName, double volumeInUnits, double targetPrice, string label = null, double? stopLossPips = null, double? takeProfitPips = null, DateTime? expiration = null)
         {
-            try { Log(LogLevel.Info, $"PlaceLimit {tradeType} {symbolName} vol={volumeInUnits:F2} @ {targetPrice:F5} label={label} slPips={stopLossPips?.ToString("F1") ?? "-"} tpPips={takeProfitPips?.ToString("F1") ?? "-"} exp={(expiration.HasValue ? expiration.Value.ToString("yyyy-MM-dd HH:mm") : "-")}"); } catch { }
+            try { Log(LogLevel.Info, $"Лимитный ордер {tradeType} {symbolName} объём={volumeInUnits:F2} по цене {targetPrice:F5} метка={label} slPips={stopLossPips?.ToString("F1") ?? "-"} tpPips={takeProfitPips?.ToString("F1") ?? "-"} истекает={(expiration.HasValue ? expiration.Value.ToString("yyyy-MM-dd HH:mm") : "-")}"); } catch { }
             var res = base.PlaceLimitOrder(tradeType, symbolName, volumeInUnits, targetPrice, label, stopLossPips, takeProfitPips, expiration);
             try { Log(res.IsSuccessful ? LogLevel.Debug : LogLevel.Error, $"Result PlaceLimit: success={res.IsSuccessful} err={res.Error?.ToString() ?? "-"} orderId={res.PendingOrder?.Id.ToString() ?? "-"}"); } catch { }
             return res;
@@ -1244,7 +1244,7 @@ namespace cAlgo.Robots
 
         public TradeResult PlaceStopOrder(TradeType tradeType, string symbolName, double volumeInUnits, double targetPrice, string label = null, double? stopLossPips = null, double? takeProfitPips = null, DateTime? expiration = null)
         {
-            try { Log(LogLevel.Info, $"PlaceStop {tradeType} {symbolName} vol={volumeInUnits:F2} @ {targetPrice:F5} label={label} slPips={stopLossPips?.ToString("F1") ?? "-"} tpPips={takeProfitPips?.ToString("F1") ?? "-"} exp={(expiration.HasValue ? expiration.Value.ToString("yyyy-MM-dd HH:mm") : "-")}"); } catch { }
+            try { Log(LogLevel.Info, $"Стоп-ордер {tradeType} {symbolName} объём={volumeInUnits:F2} по цене {targetPrice:F5} метка={label} slPips={stopLossPips?.ToString("F1") ?? "-"} tpPips={takeProfitPips?.ToString("F1") ?? "-"} истекает={(expiration.HasValue ? expiration.Value.ToString("yyyy-MM-dd HH:mm") : "-")}"); } catch { }
             var res = base.PlaceStopOrder(tradeType, symbolName, volumeInUnits, targetPrice, label, stopLossPips, takeProfitPips, expiration);
             try { Log(res.IsSuccessful ? LogLevel.Debug : LogLevel.Error, $"Result PlaceStop: success={res.IsSuccessful} err={res.Error?.ToString() ?? "-"} orderId={res.PendingOrder?.Id.ToString() ?? "-"}"); } catch { }
             return res;
@@ -1252,7 +1252,7 @@ namespace cAlgo.Robots
 
         public TradeResult ModifyPosition(Position position, double? stopLoss, double? takeProfit, ProtectionType protectionType)
         {
-            try { Log(LogLevel.Debug, $"ModifyPosition id={position?.Id} sl={(stopLoss.HasValue ? stopLoss.Value.ToString("F5") : "-")} tp={(takeProfit.HasValue ? takeProfit.Value.ToString("F5") : "-")} type={protectionType}"); } catch { }
+            try { Log(LogLevel.Debug, $"Изменение позиции id={position?.Id} sl={(stopLoss.HasValue ? stopLoss.Value.ToString("F5") : "-")} tp={(takeProfit.HasValue ? takeProfit.Value.ToString("F5") : "-")} тип={protectionType}"); } catch { }
             var res = base.ModifyPosition(position, stopLoss, takeProfit, protectionType);
             try { Log(res.IsSuccessful ? LogLevel.Debug : LogLevel.Error, $"Result Modify: success={res.IsSuccessful} err={res.Error?.ToString() ?? "-"}"); } catch { }
             return res;
@@ -1260,7 +1260,7 @@ namespace cAlgo.Robots
 
         public TradeResult CancelPendingOrder(PendingOrder order)
         {
-            try { Log(LogLevel.Debug, $"CancelPending id={order?.Id} label={order?.Label} @ {order?.TargetPrice:F5}"); } catch { }
+            try { Log(LogLevel.Debug, $"Отмена отложенного id={order?.Id} метка={order?.Label} по цене {order?.TargetPrice:F5}"); } catch { }
             var res = base.CancelPendingOrder(order);
             try { Log(res.IsSuccessful ? LogLevel.Debug : LogLevel.Error, $"Result CancelPending: success={res.IsSuccessful} err={res.Error?.ToString() ?? "-"}"); } catch { }
             return res;
@@ -1268,7 +1268,7 @@ namespace cAlgo.Robots
 
         public TradeResult ClosePosition(Position position)
         {
-            try { Log(LogLevel.Info, $"ClosePosition id={position?.Id} label={position?.Label} pnl={position?.NetProfit:C}"); } catch { }
+            try { Log(LogLevel.Info, $"Закрытие позиции id={position?.Id} метка={position?.Label} pnl={position?.NetProfit:C}"); } catch { }
             var res = base.ClosePosition(position);
             try { Log(res.IsSuccessful ? LogLevel.Info : LogLevel.Error, $"Result ClosePosition: success={res.IsSuccessful} err={res.Error?.ToString() ?? "-"}"); } catch { }
             return res;
@@ -1276,7 +1276,7 @@ namespace cAlgo.Robots
 
         public TradeResult ClosePosition(Position position, double volumeInUnits)
         {
-            try { Log(LogLevel.Info, $"ClosePositionPartial id={position?.Id} vol={volumeInUnits:F2} label={position?.Label} pnl={position?.NetProfit:C}"); } catch { }
+            try { Log(LogLevel.Info, $"Частичное закрытие id={position?.Id} объём={volumeInUnits:F2} метка={position?.Label} pnl={position?.NetProfit:C}"); } catch { }
             var res = base.ClosePosition(position, volumeInUnits);
             try { Log(res.IsSuccessful ? LogLevel.Info : LogLevel.Error, $"Result ClosePartial: success={res.IsSuccessful} err={res.Error?.ToString() ?? "-"}"); } catch { }
             return res;
@@ -1407,7 +1407,7 @@ namespace cAlgo.Robots
             {
                 if (!UseTrapGrid)
                     return;
-                Log(LogLevel.Debug, "TrapGrid check");
+                Log(LogLevel.Debug, "Проверка TrapGrid");
 
                 if ((DateTime.Now - _lastTrapRebuild).TotalSeconds < TrapRebuildSeconds)
                 {
@@ -1429,7 +1429,7 @@ namespace cAlgo.Robots
                 CancelTrapOrders();
                 BuildTrapGrid();
                 _lastTrapRebuild = DateTime.Now;
-                Log(LogLevel.Info, "TrapGrid rebuilt");
+                Log(LogLevel.Info, "TrapGrid перестроен");
 
                 if (TrapUseOCO) EnforceTrapOCO();
             }
@@ -1443,7 +1443,7 @@ namespace cAlgo.Robots
         {
             foreach (var po in PendingOrders.Where(o => o.SymbolName == SymbolName && o.Label.StartsWith(TRAP_LABEL_PREFIX)))
             {
-                Log(LogLevel.Debug, $"CancelTrapOrders: cancel {po.Label} @ {po.TargetPrice:F5}");
+                Log(LogLevel.Debug, $"CancelTrapOrders: отмена {po.Label} по цене {po.TargetPrice:F5}");
                 CancelPendingOrder(po);
             }
         }
@@ -1484,7 +1484,7 @@ namespace cAlgo.Robots
             int capacity = AvailablePositionSlots();
             if (capacity <= 0)
             {
-                Print($"⛔ TrapGrid: пропуск — лимит позиций {MaxOpenPositions} достигнут.");
+                Print($"TrapGrid: пропуск — лимит позиций {MaxOpenPositions} достигнут.");
                 return;
             }
             // Respect Hunter margin reserve: avoid placing new traps if free margin at/below reserve
@@ -1493,7 +1493,7 @@ namespace cAlgo.Robots
                 double hunterReserve = GetHunterReserveMarginCurrency();
                 if (hunterReserve > 0 && Account.FreeMargin <= hunterReserve)
                 {
-                    Print("⏸️ TrapGrid: резерв маржи под Hunter — новые ордера не ставим");
+                    Print("TrapGrid: резерв маржи под Hunter — новые ордера не ставим");
                     return;
                 }
             }
@@ -1600,16 +1600,16 @@ namespace cAlgo.Robots
 
         {
             InitLogger();
-            Log(LogLevel.Info, "OnStart invoked");
+            Log(LogLevel.Info, "Запуск OnStart");
 
             InitializeComponents();
-            Log(LogLevel.Debug, "Components initialized");
+            Log(LogLevel.Debug, "Компоненты инициализированы");
 
             InitializeTimeFrames();
-            Log(LogLevel.Debug, $"TimeFrames: sel={_selectedTimeFrame}, HTF={_higherTimeFrame}, LTF={_lowerTimeFrame}");
+            Log(LogLevel.Debug, $"Таймфреймы: осн={_selectedTimeFrame}, старший={_higherTimeFrame}, младший={_lowerTimeFrame}");
 
             InitializeAnalysisStructures();
-            Log(LogLevel.Debug, "Analysis structures initialized");
+            Log(LogLevel.Debug, "Структуры анализа инициализированы");
 
 
 
@@ -1624,7 +1624,7 @@ namespace cAlgo.Robots
             _detectedMarket = AutoDetectMarket ? DetectMarketType() : ManualMarketType;
 
             _currentSettings = GetMarketSettings(_detectedMarket);
-            Log(LogLevel.Info, $"Market detected: {_detectedMarket}; Settings: orders={_currentSettings.OrdersCount}, step={_currentSettings.StepPips}, tp={_currentSettings.TakeProfitPips}");
+            Log(LogLevel.Info, $"Рынок определён: {_detectedMarket}; настройки: ордера={_currentSettings.OrdersCount}, шаг={_currentSettings.StepPips}, tp={_currentSettings.TakeProfitPips}");
 
             if (ApplyPresetOnStart)
             {
@@ -1633,10 +1633,10 @@ namespace cAlgo.Robots
             }
 
             PrintStartupInfo();
-            Log(LogLevel.Info, $"Startup: symbol={SymbolName} market={_currentSettings.MarketName} timeframe={_selectedTimeFrame}");
+            Log(LogLevel.Info, $"Старт: символ={SymbolName} рынок={_currentSettings.MarketName} таймфрейм={_selectedTimeFrame}");
 
             Timer.Start(TimeSpan.FromSeconds(1));
-            Log(LogLevel.Debug, "Timer started (1s)");
+            Log(LogLevel.Debug, "Таймер запущен (1с)");
 
             // Subscribe to position events (API without override)
             try { Positions.Opened += OnPositionsOpened; } catch { }
@@ -1773,7 +1773,7 @@ namespace cAlgo.Robots
 
             };
 
-            Print("👨‍✈️ Команда специалистов инициализирована!");
+            Print("Команда специалистов инициализирована!");
 
         }
 
@@ -1843,21 +1843,21 @@ namespace cAlgo.Robots
 
             Print($"====== OLYMPIAN QUANTUM TRADER v3.0 ======");
 
-            Print($"🎯 Символ: {SymbolName}");
+            Print($"Символ: {SymbolName}");
 
-            Print($"📊 Обнаружен рынок: {_currentSettings.MarketName}");
+            Print($"Обнаружен рынок: {_currentSettings.MarketName}");
 
-            Print($"⚙️ Настройки: {_currentSettings.OrdersCount} ордеров, шаг {_currentSettings.StepPips} пипсов");
+            Print($"Настройки: {_currentSettings.OrdersCount} ордеров, шаг {_currentSettings.StepPips} пипсов");
 
-            Print($"📈 Таймфрейм анализа: {_selectedTimeFrame}");
+            Print($"Таймфрейм анализа: {_selectedTimeFrame}");
 
-            Print($"🔥 Кластерный анализ: {(EnableClusterAnalysis ? "ВКЛЮЧЕН" : "ВЫКЛЮЧЕН")}");
+            Print($"Кластерный анализ: {(EnableClusterAnalysis ? "ВКЛЮЧЕН" : "ВЫКЛЮЧЕН")}");
 
-            Print($"🧠 Мульти-ТФ анализ: {(EnableMultiTimeFrameAnalysis ? "ВКЛЮЧЕН" : "ВЫКЛЮЧЕН")}");
+            Print($"Мульти-ТФ анализ: {(EnableMultiTimeFrameAnalysis ? "ВКЛЮЧЕН" : "ВЫКЛЮЧЕН")}");
 
-            Print($"⚡ Скальпинг конфликтов: {(EnableConflictScalping ? "ВКЛЮЧЕН" : "ВЫКЛЮЧЕН")}");
+            Print($"Скальпинг конфликтов: {(EnableConflictScalping ? "ВКЛЮЧЕН" : "ВЫКЛЮЧЕН")}");
 
-            Print($"👥 Параллельная команда: {(EnableParallelTeam ? "ВКЛЮЧЕНА" : "ВЫКЛЮЧЕНА")}");
+            Print($"Параллельная команда: {(EnableParallelTeam ? "ВКЛЮЧЕНА" : "ВЫКЛЮЧЕНА")}");
 
             Print("==============================");
 
@@ -1875,7 +1875,7 @@ namespace cAlgo.Robots
 
                 if (drawdownPercent >= EmergencyStopLossPercent)
                 {
-                    Print($"🚨 ЭКСТРЕННАЯ МИТИГАЦИЯ: Просадка {drawdownPercent:F1}% >= {EmergencyStopLossPercent}%");
+                    Print($"ЭКСТРЕННАЯ МИТИГАЦИЯ: Просадка {drawdownPercent:F1}% >= {EmergencyStopLossPercent}%");
                     Print($"Balance: {Account.Balance:C}, Equity: {Account.Equity:C}");
 
                     var positions = Positions.Where(p => p.SymbolName == SymbolName).ToList();
@@ -1903,7 +1903,7 @@ namespace cAlgo.Robots
             try
 
             {
-                Log(LogLevel.Debug, "OnTimer tick");
+                Log(LogLevel.Debug, "Тик таймера");
 
                 // ЭКСТРЕННАЯ ПРОВЕРКА УБЫТКОВ - выполняется КАЖДУЮ секунду
                 var positions = Positions.Where(p => p.SymbolName == SymbolName).ToList();
@@ -1914,8 +1914,8 @@ namespace cAlgo.Robots
                     // Проверка абсолютного убытка
                     if (NetLossAbsTarget > 0 && totalPnL < 0 && Math.Abs(totalPnL) >= NetLossAbsTarget)
                     {
-                        Print($"🚨 ЭКСТРЕННОЕ ЗАКРЫТИЕ: Убыток {totalPnL:C} превысил лимит {NetLossAbsTarget:C}");
-                        Log(LogLevel.Info, $"EMERGENCY CLOSE: Loss {totalPnL:F2} >= {NetLossAbsTarget:F2}");
+                        Print($"ЭКСТРЕННОЕ ЗАКРЫТИЕ: Убыток {totalPnL:C} превысил лимит {NetLossAbsTarget:C}");
+                        Log(LogLevel.Info, $"ЭКСТРЕННОЕ ЗАКРЫТИЕ: убыток {totalPnL:F2} >= {NetLossAbsTarget:F2}");
 
                         foreach (var pos in positions)
                         {
@@ -2082,7 +2082,7 @@ namespace cAlgo.Robots
 
                 {
 
-                    Print($"👨‍✈️ Капитан: БЛОКИРУЮ {requester} - превышение лимита на {(projectedExposure - MaxTotalExposureLots):F2}");
+                    Print($"Капитан: БЛОКИРУЮ {requester} - превышение лимита на {(projectedExposure - MaxTotalExposureLots):F2}");
 
                     return CaptainCommand.Block;
 
@@ -2092,7 +2092,7 @@ namespace cAlgo.Robots
 
                 {
 
-                    Print($"👨‍✈️ Капитан: {requester} уменьшите размер");
+                    Print($"Капитан: {requester} уменьшите размер");
 
                     return CaptainCommand.ReduceSize;
 
@@ -2287,7 +2287,7 @@ namespace cAlgo.Robots
 
                     _hunter.LastAction = DateTime.Now;
 
-                    Print($"🎯 Охотник: Снайперский выстрел {tradeType}! Дисбаланс: {_orderBookImbalance:F1}%");
+                    Print($"Охотник: Снайперский выстрел {tradeType}! Дисбаланс: {_orderBookImbalance:F1}%");
 
                 }
             }
@@ -2303,7 +2303,7 @@ namespace cAlgo.Robots
                     _hunterPosition = result.Position;
                     _hunter.ActionsToday++;
                     _hunter.LastAction = DateTime.Now;
-                    Print($"🎯 Охотник: Снайперский выстрел {tradeType}! Дисбаланс: {_orderBookImbalance:F1}%");
+                    Print($"Охотник: Снайперский выстрел {tradeType}! Дисбаланс: {_orderBookImbalance:F1}%");
                 }
             }
 
@@ -2361,7 +2361,7 @@ namespace cAlgo.Robots
             int capacity = AvailablePositionSlots();
             if (capacity <= 0)
             {
-                Print($"⛔ Фермер: пропуск перестройки сетки — лимит позиций {MaxOpenPositions} достигнут.");
+                Print($"Фермер: пропуск перестройки сетки — лимит позиций {MaxOpenPositions} достигнут.");
                 return;
             }
             int placed = 0;
@@ -2436,7 +2436,7 @@ namespace cAlgo.Robots
 
             _lastGridRebuild = DateTime.Now;
 
-            Print($"🌾 Фермер: Сетка перестроена ({_currentSettings.OrdersCount * 2} ордеров)");
+            Print($"Фермер: Сетка перестроена ({_currentSettings.OrdersCount * 2} ордеров)");
 
         }
 
@@ -3114,7 +3114,7 @@ namespace cAlgo.Robots
 
 
 
-            Print($"⚡ Активирована ловушка скальпинга! Конфликт: {_detectedConflict}");
+            Print($"Активирована ловушка скальпинга! Конфликт: {_detectedConflict}");
 
         }
 
@@ -3268,7 +3268,7 @@ namespace cAlgo.Robots
 
 
 
-                Print($"⚡ Скальп-сделка открыта: {tradeType} при конфликте {_detectedConflict}");
+                Print($"Скальп-сделка открыта: {tradeType} при конфликте {_detectedConflict}");
 
             }
 
@@ -3294,7 +3294,7 @@ namespace cAlgo.Robots
 
 
 
-            Print("⚡ Ловушка скальпинга деактивирована");
+            Print("Ловушка скальпинга деактивирована");
 
         }
 
@@ -3756,7 +3756,7 @@ namespace cAlgo.Robots
                     }
                     catch { }
 
-                    Print($"🎯 Охотник открыл {tradeType} позицию! Дисбаланс: {_orderBookImbalance:F1}%");
+                    Print($"Охотник открыл {tradeType} позицию! Дисбаланс: {_orderBookImbalance:F1}%");
 
                 }
                 else
@@ -3769,7 +3769,7 @@ namespace cAlgo.Robots
                     if (fallbackResult.IsSuccessful)
                     {
                         _hunterPosition = fallbackResult.Position;
-                        Print($"🎯 Охотник открыл {tradeType} позицию! Дисбаланс: {_orderBookImbalance:F1}%");
+                        Print($"Охотник открыл {tradeType} позицию! Дисбаланс: {_orderBookImbalance:F1}%");
                     }
                 }
 
@@ -3788,7 +3788,7 @@ namespace cAlgo.Robots
             int capacity = AvailablePositionSlots();
             if (capacity <= 0)
             {
-                Print($"⛔ Сетка не перестроена: лимит позиций {MaxOpenPositions} уже достигнут.");
+                Print($"Сетка не перестроена: лимит позиций {MaxOpenPositions} уже достигнут.");
                 return;
             }
             // Respect Hunter margin reserve: avoid placing new grid if free margin at/below reserve
@@ -3797,7 +3797,7 @@ namespace cAlgo.Robots
                 double hunterReserve = GetHunterReserveMarginCurrency();
                 if (hunterReserve > 0 && Account.FreeMargin <= hunterReserve)
                 {
-                    Print("⏸️ Сетка не ставится: резерв маржи под Hunter");
+                    Print("Сетка не ставится: резерв маржи под Hunter");
                     return;
                 }
             }
@@ -3866,7 +3866,7 @@ namespace cAlgo.Robots
 
             _lastGridRebuild = DateTime.Now;
 
-            Print($"🌾 Сетка перестроена: размещено {placed} ордеров (лимит позиций {MaxOpenPositions})");
+            Print($"Сетка перестроена: размещено {placed} ордеров (лимит позиций {MaxOpenPositions})");
 
         }
 
@@ -3954,7 +3954,7 @@ namespace cAlgo.Robots
                         _tradingPaused = true;
                         CancelAllPendingOrdersForSymbol();
                         _currentStrategy = $"PAUSE: {_pauseReason}";
-                        Log(LogLevel.Info, $"Trading paused (margin): {_pauseReason}");
+                        Log(LogLevel.Info, $"Торговля приостановлена (маржа): {_pauseReason}");
                     }
                     return true;
                 }
@@ -3962,7 +3962,7 @@ namespace cAlgo.Robots
                 {
                     _tradingPaused = false;
                     _pauseReason = string.Empty;
-                    Log(LogLevel.Info, "Trading resumed (margin)");
+                        Log(LogLevel.Info, "Торговля возобновлена (маржа)");
                     _currentStrategy = "Возобновление после паузы (маржа)";
                 }
             }
@@ -3976,7 +3976,7 @@ namespace cAlgo.Robots
 
             if (EnableDrawdownMitigation && currentDrawdownPercent >= EmergencyStopLossPercent)
             {
-                Print($"🚨 МИТИГАЦИЯ: Просадка {currentDrawdownPercent:F1}% >= порог {EmergencyStopLossPercent}%");
+                Print($"МИТИГАЦИЯ: Просадка {currentDrawdownPercent:F1}% >= порог {EmergencyStopLossPercent}%");
                 Log(LogLevel.Info, $"Запуск митигации при просадке {currentDrawdownPercent:F1}%");
                 MitigateDrawdown();
                 return true;
@@ -4224,7 +4224,7 @@ namespace cAlgo.Robots
             if (!CanOpenAnotherPosition())
             {
                 _currentStrategy = $"PAUSE: достигнут лимит позиций ({MaxOpenPositions}) [{context}]";
-                Print($"⛔ Лимит открытых позиций достигнут: {MaxOpenPositions}. Блокируем вход [{context}].");
+                Print($"Лимит открытых позиций достигнут: {MaxOpenPositions}. Блокируем вход [{context}].");
                 return true;
             }
             return false;
@@ -4367,7 +4367,7 @@ namespace cAlgo.Robots
             try
             {
                 if (args.Position.SymbolName != SymbolName) return;
-                Log(LogLevel.Debug, $"Position opened: {args.Position.Label} {args.Position.TradeType} vol={args.Position.VolumeInUnits:F2} @ {args.Position.EntryPrice:F5}");
+                Log(LogLevel.Debug, $"Открыта позиция: {args.Position.Label} {args.Position.TradeType} объем={args.Position.VolumeInUnits:F2} @ {args.Position.EntryPrice:F5}");
             }
             catch { }
         }
@@ -4755,7 +4755,7 @@ namespace cAlgo.Robots
             try
             {
                 Log(LogLevel.Info, "=== НАЧАЛО МИТИГАЦИИ ПРОСАДКИ ===");
-                Print($"🚨 ЗАПУСК МИТИГАЦИИ: Balance={Account.Balance:C}, Equity={Account.Equity:C}");
+                Print($"ЗАПУСК МИТИГАЦИИ: Balance={Account.Balance:C}, Equity={Account.Equity:C}");
 
                 var losing = Positions.Where(p => p.SymbolName == SymbolName && p.NetProfit < 0).ToList();
                 if (!losing.Any())
@@ -4765,7 +4765,7 @@ namespace cAlgo.Robots
                 }
 
                 Log(LogLevel.Info, $"Найдено убыточных позиций: {losing.Count}, общий убыток: {losing.Sum(p => p.NetProfit):C}");
-                Print($"📊 Митигация: {losing.Count} убыточных позиций, убыток: {losing.Sum(p => p.NetProfit):C}");
+                Print($"Митигация: {losing.Count} убыточных позиций, убыток: {losing.Sum(p => p.NetProfit):C}");
 
                 int fully = 0, partially = 0, kept = 0, hard = 0;
                 foreach (var pos in losing)
@@ -4776,7 +4776,7 @@ namespace cAlgo.Robots
                         ClosePosition(pos);
                         fully++;
                         hard++;
-                        Print($"🚨 HardExit: {hardReason}");
+                        Print($"HardExit: {hardReason}");
                         continue;
                     }
 
@@ -4890,7 +4890,7 @@ namespace cAlgo.Robots
 
         {
 
-            Print($"🚨 {reason}");
+            Print($"{reason}");
 
             CancelAllFarmerOrders();
 
@@ -4933,7 +4933,7 @@ namespace cAlgo.Robots
 
             var text = new StringBuilder();
 
-            text.AppendLine($"=== 🚀 OLYMPIAN QUANTUM TEAM v3.0 ===");
+            text.AppendLine($"=== OLYMPIAN QUANTUM TEAM v3.0 ===");
 
             text.AppendLine($"Рынок: {_currentSettings.MarketName}");
 
@@ -4943,7 +4943,7 @@ namespace cAlgo.Robots
 
             // Дисбаланс
 
-            text.AppendLine($"=== ⚖️ ДИСБАЛАНС L2 ===");
+            text.AppendLine($"=== ДИСБАЛАНС L2 ===");
 
             text.AppendLine($"Значение: {_orderBookImbalance:F1}%");
 
@@ -4951,7 +4951,7 @@ namespace cAlgo.Robots
 
             // Дисбаланс
 
-            text.AppendLine($"=== ⚖️ ДИСБАЛАНС L2 ===");
+            text.AppendLine($"=== ДИСБАЛАНС L2 ===");
 
             text.AppendLine($"Значение: {_orderBookImbalance:F1}%");
 
@@ -4959,7 +4959,7 @@ namespace cAlgo.Robots
 
             // Дисбаланс
 
-            text.AppendLine($"=== ⚖️ ДИСБАЛАНС L2 ===");
+            text.AppendLine($"=== ДИСБАЛАНС L2 ===");
 
             text.AppendLine($"Значение: {_orderBookImbalance:F1}%");
 
@@ -4971,19 +4971,19 @@ namespace cAlgo.Robots
 
             // Статус команды
 
-            text.AppendLine($"=== 👥 СТАТУС КОМАНДЫ ===");
+            text.AppendLine($"=== СТАТУС КОМАНДЫ ===");
 
             if (_farmer != null)
 
-                text.AppendLine($"🌾 Фермер: {_farmer.Status} - {_farmer.StatusMessage}");
+                text.AppendLine($"Фермер: {_farmer.Status} - {_farmer.StatusMessage}");
 
             if (_hunter != null)
 
-                text.AppendLine($"🎯 Охотник: {_hunter.Status} - {_hunter.StatusMessage}");
+                text.AppendLine($"Охотник: {_hunter.Status} - {_hunter.StatusMessage}");
 
             if (_scalper != null)
 
-                text.AppendLine($"⚡ Скальпер: {_scalper.Status} - {_scalper.StatusMessage}");
+                text.AppendLine($"Скальпер: {_scalper.Status} - {_scalper.StatusMessage}");
 
             text.AppendLine($"");
 
@@ -4995,7 +4995,7 @@ namespace cAlgo.Robots
 
             {
 
-                text.AppendLine($"=== 🧠 МУЛЬТИ-ТФ АНАЛИЗ ===");
+                text.AppendLine($"=== МУЛЬТИ-ТФ АНАЛИЗ ===");
 
                 text.AppendLine($"{_higherTFAnalysis.Name}: {_higherTFAnalysis.Trend} ({_higherTFAnalysis.PricePosition})");
 
@@ -5015,7 +5015,7 @@ namespace cAlgo.Robots
 
             // L2 анализ
 
-            text.AppendLine($"=== 🕵️ ДЕТЕКТИВ ЛИКВИДНОСТИ ===");
+            text.AppendLine($"=== ДЕТЕКТИВ ЛИКВИДНОСТИ ===");
 
             text.AppendLine($"Кластеров отслеживается: {_trackedClusters.Count}");
 
@@ -5043,7 +5043,7 @@ namespace cAlgo.Robots
 
             // Дисбаланс
 
-            text.AppendLine($"=== ⚖️ ДИСБАЛАНС L2 ===");
+            text.AppendLine($"=== ДИСБАЛАНС L2 ===");
 
             text.AppendLine($"Значение: {_orderBookImbalance:F1}%");
 
@@ -5055,7 +5055,7 @@ namespace cAlgo.Robots
 
             // Позиции и статистика
 
-            text.AppendLine($"=== 💼 ПОЗИЦИИ ===");
+            text.AppendLine($"=== ПОЗИЦИИ ===");
 
             var symbolPositions = Positions.Where(p => p.SymbolName == SymbolName);
 
@@ -5079,11 +5079,11 @@ namespace cAlgo.Robots
 
 
 
-                if (farmerPnL != 0) text.AppendLine($"🌾 Фермер: {farmerPnL:C}");
+                if (farmerPnL != 0) text.AppendLine($"Фермер: {farmerPnL:C}");
 
-                if (scalpPnL != 0) text.AppendLine($"⚡ Скальпер: {scalpPnL:C}");
+                if (scalpPnL != 0) text.AppendLine($"Скальпер: {scalpPnL:C}");
 
-                if (hunterPnL != 0) text.AppendLine($"🎯 Охотник: {hunterPnL:C}");
+                if (hunterPnL != 0) text.AppendLine($"Охотник: {hunterPnL:C}");
 
             }
 
@@ -5103,7 +5103,7 @@ namespace cAlgo.Robots
 
             var text = new StringBuilder();
 
-            text.AppendLine($"=== 🚀 OLYMPIAN QUANTUM TRADER v3.0 ===");
+            text.AppendLine($"=== OLYMPIAN QUANTUM TRADER v3.0 ===");
 
             text.AppendLine($"Рынок: {_currentSettings.MarketName}");
 
@@ -5112,7 +5112,7 @@ namespace cAlgo.Robots
             text.AppendLine($"TrapGrid: {(UseTrapGrid ? $"ON (Reversion={(EnableTrapReversion ? "Y" : "N")}, Breakout={(EnableTrapBreakout ? "Y" : "N")})" : "OFF")}");
 
             text.AppendLine($"");
-            text.AppendLine($"=== 🎯 КЛЮЧЕВЫЕ УРОВНИ ===");
+            text.AppendLine($"=== КЛЮЧЕВЫЕ УРОВНИ ===");
             var poc = _currentVolumeProfile?.POC > 0 ? _currentVolumeProfile.POC.ToString("F5") : "n/a";
             var vah = _currentVolumeProfile?.VAH > 0 ? _currentVolumeProfile.VAH.ToString("F5") : "n/a";
             var val = _currentVolumeProfile?.VAL > 0 ? _currentVolumeProfile.VAL.ToString("F5") : "n/a";
@@ -5129,7 +5129,7 @@ namespace cAlgo.Robots
 
             {
 
-                text.AppendLine($"=== 🧠 МУЛЬТИ-ТФ АНАЛИЗ ===");
+                text.AppendLine($"=== МУЛЬТИ-ТФ АНАЛИЗ ===");
 
                 text.AppendLine($"{_higherTFAnalysis.Name}: {_higherTFAnalysis.Trend} ({_higherTFAnalysis.PricePosition})");
 
@@ -5149,7 +5149,7 @@ namespace cAlgo.Robots
 
             // L2 анализ
 
-            text.AppendLine($"=== 🕵️ ДЕТЕКТИВ ЛИКВИДНОСТИ ===");
+            text.AppendLine($"=== ДЕТЕКТИВ ЛИКВИДНОСТИ ===");
 
             text.AppendLine($"Кластеров отслеживается: {_trackedClusters.Count}");
 
@@ -5181,7 +5181,7 @@ namespace cAlgo.Robots
 
             {
 
-                text.AppendLine($"=== ⚡ СКАЛЬПИНГ КОНФЛИКТОВ ===");
+                text.AppendLine($"=== СКАЛЬПИНГ КОНФЛИКТОВ ===");
 
                 text.AppendLine($"Ловушка активна: {(_scalpingTrapActive ? "ДА" : "НЕТ")}");
 
@@ -5205,7 +5205,7 @@ namespace cAlgo.Robots
 
             // Основная сетка
 
-            text.AppendLine($"=== 🌾 ОСНОВНАЯ СЕТКА ===");
+            text.AppendLine($"=== ОСНОВНАЯ СЕТКА ===");
 
             text.AppendLine($"Ордеров: {_currentSettings.OrdersCount * 2}");
 
@@ -5235,7 +5235,7 @@ namespace cAlgo.Robots
 
             // Дисбаланс
 
-            text.AppendLine($"=== ⚖️ ДИСБАЛАНС L2 ===");
+            text.AppendLine($"=== ДИСБАЛАНС L2 ===");
 
             text.AppendLine($"Значение: {_orderBookImbalance:F1}%");
 
@@ -5247,7 +5247,7 @@ namespace cAlgo.Robots
 
             // Позиции и статистика
 
-            text.AppendLine($"=== 💼 ПОЗИЦИИ ===");
+            text.AppendLine($"=== ПОЗИЦИИ ===");
 
             var symbolPositions = Positions.Where(p => p.SymbolName == SymbolName);
 
@@ -5271,11 +5271,11 @@ namespace cAlgo.Robots
 
 
 
-                if (farmerPnL != 0) text.AppendLine($"🌾 Фермер: {farmerPnL:C}");
+                if (farmerPnL != 0) text.AppendLine($"Фермер: {farmerPnL:C}");
 
-                if (scalpPnL != 0) text.AppendLine($"⚡ Скальп: {scalpPnL:C}");
+                if (scalpPnL != 0) text.AppendLine($"Скальп: {scalpPnL:C}");
 
-                if (hunterPnL != 0) text.AppendLine($"🎯 Охотник: {hunterPnL:C}");
+                if (hunterPnL != 0) text.AppendLine($"Охотник: {hunterPnL:C}");
 
             }
 
@@ -5362,7 +5362,7 @@ namespace cAlgo.Robots
                         }
                     }
                     if (closed > 0)
-                        Print($"✅ Персделочное автозакрытие: закрыто {closed} позиций по порогам {PerPositionProfitTargetCurrency:C} / -{PerPositionLossTargetCurrency:C}");
+                        Print($"Персделочное автозакрытие: закрыто {closed} позиций по порогам {PerPositionProfitTargetCurrency:C} / -{PerPositionLossTargetCurrency:C}");
                 }
 
                 // 4) Daily targets
@@ -5415,7 +5415,7 @@ namespace cAlgo.Robots
                             ClosePosition(pos, volumeToClose);
                             closed++;
                         }
-                        Print($"🔒 Тралл Net-прибыли: peak={_netProfitPeak:C} → cur={netProfit:C}. Закрыто частично позиций: {closed} (frac={frac:P0})");
+                        Print($"Тралл Net-прибыли: peak={_netProfitPeak:C} -> cur={netProfit:C}. Закрыто частично позиций: {closed} (frac={frac:P0})");
                         _netProfitPeak = netProfit; // reset after lock
                         if (NetTrailPauseAfterLock)
                         {
@@ -5433,7 +5433,7 @@ namespace cAlgo.Robots
                     // Activate only if we had at least LossTrailStartCurrency of loss at trough
                     if (_netLossTrough <= -Math.Max(0.0, LossTrailStartCurrency))
                     {
-                        double improvement = netProfit - _netLossTrough; // improvement from worst (negative → less negative)
+                        double improvement = netProfit - _netLossTrough; // improvement from worst (negative -> less negative)
                         if (improvement >= LossTrailStepCurrency && netProfit <= 0)
                         {
                             var baseList = LossTrailOnlyLosingPositions ?
@@ -5453,7 +5453,7 @@ namespace cAlgo.Robots
                                 ClosePosition(pos, volumeToClose);
                                 closed++;
                             }
-                            Print($"🛡️ Тралл Net-убытка: trough={_netLossTrough:C} → cur={netProfit:C}. Частично закрыто: {closed} (frac={frac:P0})");
+                            Print($"Тралл Net-убытка: trough={_netLossTrough:C} -> cur={netProfit:C}. Частично закрыто: {closed} (frac={frac:P0})");
                             _netLossTrough = netProfit; // reset after lock to current
                             if (LossTrailPauseAfterLock)
                             {
@@ -5485,7 +5485,7 @@ namespace cAlgo.Robots
             int closed = 0;
             foreach (var pos in toClose)
             {
-                Log(LogLevel.Info, $"AutoClose aggregate: closing posId={pos.Id} label={pos.Label} pnl={pos.NetProfit:C}");
+                Log(LogLevel.Info, $"Суммарное автозакрытие: закрытие posId={pos.Id} label={pos.Label} pnl={pos.NetProfit:C}");
                 ClosePosition(pos);
                 closed++;
             }
@@ -5496,8 +5496,8 @@ namespace cAlgo.Robots
                 canceled = CancelAllPendingOrdersForSymbol();
             }
 
-            Print($"✅ Автозакрытие по сумме: Net={netProfit:C} {reasonSide}. Закрыто позиций: {closed}. {(AutoCloseCancelPendingOrders ? ($"Отменено pending: {canceled}.") : "")}");
-            Log(LogLevel.Info, $"AutoClose aggregate done: net={netProfit:F2} {reasonSide}, closed={closed}, canceledPend={canceled}");
+            Print($"Автозакрытие по сумме: Net={netProfit:C} {reasonSide}. Закрыто позиций: {closed}. {(AutoCloseCancelPendingOrders ? ($"Отменено pending: {canceled}.") : "")}");
+            Log(LogLevel.Info, $"Суммарное автозакрытие завершено: net={netProfit:F2} {reasonSide}, закрыто={closed}, отменено={canceled}");
         }
 
         private DateTime GetLocalSessionNow()
@@ -5530,7 +5530,7 @@ namespace cAlgo.Robots
                     _netLossTrough = 0.0;
                     _pausedByDaily = false;
                     _pausedByLossTrail = false;
-                    Print($"🔄 Сброс дневных счетчиков ({_dailyKey:yyyy-MM-dd HH:mm})");
+                    Print($"Сброс дневных счетчиков ({_dailyKey:yyyy-MM-dd HH:mm})");
                 }
             }
             catch { }
@@ -5552,15 +5552,15 @@ namespace cAlgo.Robots
         {
             try { Positions.Opened -= OnPositionsOpened; } catch { }
             try { Positions.Closed -= OnPositionsClosed; } catch { }
-            Log(LogLevel.Info, "OnStop invoked");
+            Log(LogLevel.Info, "Вызван OnStop");
 
             Print("====== QUANTUM TRADER ОСТАНОВЛЕН ======");
 
-            Print($"[STOP] 🎯 Символ: {SymbolName}");
+            Print($"[STOP] Символ: {SymbolName}");
 
-            Print($"[STOP] 📊 Рынок: {_currentSettings?.MarketName ?? "Неизвестен"}");
+            Print($"[STOP] Рынок: {_currentSettings?.MarketName ?? "Неизвестен"}");
 
-            Print($"[STOP] ⏰ Время работы: до {DateTime.Now:HH:mm:ss}");
+            Print($"[STOP] Время работы: до {DateTime.Now:HH:mm:ss}");
 
 
 
@@ -5570,11 +5570,11 @@ namespace cAlgo.Robots
 
 
 
-            Print($"[STOP] 💼 Открытых позиций: {symbolPositions.Count()}");
+            Print($"[STOP] Открытых позиций: {symbolPositions.Count()}");
 
-            Print($"[STOP] 📋 Pending ордеров: {symbolOrders.Count()}");
+            Print($"[STOP] Pending ордеров: {symbolOrders.Count()}");
 
-            Print($"[STOP] 🕵️ Отслеживаемых кластеров: {_trackedClusters.Count}");
+            Print($"[STOP] Отслеживаемых кластеров: {_trackedClusters.Count}");
 
 
 
@@ -5582,13 +5582,13 @@ namespace cAlgo.Robots
 
             {
 
-                Print($"[STOP] 👥 Команда:");
+                Print($"[STOP] Команда:");
 
-                if (_farmer != null) Print($"[STOP] 🌾 Фермер: {_farmer.ActionsToday} действий");
+                if (_farmer != null) Print($"[STOP] Фермер: {_farmer.ActionsToday} действий");
 
-                if (_hunter != null) Print($"[STOP] 🎯 Охотник: {_hunter.ActionsToday} выстрелов");
+                if (_hunter != null) Print($"[STOP] Охотник: {_hunter.ActionsToday} выстрелов");
 
-                if (_scalper != null) Print($"[STOP] ⚡ Скальпер: {_scalper.ActionsToday} атак");
+                if (_scalper != null) Print($"[STOP] Скальпер: {_scalper.ActionsToday} атак");
 
             }
 
@@ -5600,7 +5600,7 @@ namespace cAlgo.Robots
 
                 double totalPnL = symbolPositions.Sum(p => p.NetProfit);
 
-                Print($"[STOP] 💰 Общий P/L: {totalPnL:C}");
+                Print($"[STOP] Общий P/L: {totalPnL:C}");
 
 
 
@@ -5614,15 +5614,15 @@ namespace cAlgo.Robots
 
                 if (farmerPositions.Any())
 
-                    Print($"[STOP] 🌾 Фермер P/L: {farmerPositions.Sum(p => p.NetProfit):C}");
+                    Print($"[STOP] Фермер P/L: {farmerPositions.Sum(p => p.NetProfit):C}");
 
                 if (scalpPositions.Any())
 
-                    Print($"[STOP] ⚡ Скальпинг P/L: {scalpPositions.Sum(p => p.NetProfit):C}");
+                    Print($"[STOP] Скальпинг P/L: {scalpPositions.Sum(p => p.NetProfit):C}");
 
                 if (hunterPositions.Any())
 
-                    Print($"[STOP] 🎯 Охотник P/L: {hunterPositions.Sum(p => p.NetProfit):C}");
+                    Print($"[STOP] Охотник P/L: {hunterPositions.Sum(p => p.NetProfit):C}");
 
             }
 
