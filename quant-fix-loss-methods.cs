@@ -1638,7 +1638,8 @@ namespace cAlgo.Robots
             Timer.Start(TimeSpan.FromSeconds(1));
             Log(LogLevel.Debug, "Timer started (1s)");
 
-            // Subscribe to position closed event (API without override)
+            // Subscribe to position events (API without override)
+            try { Positions.Opened += OnPositionsOpened; } catch { }
             try { Positions.Closed += OnPositionsClosed; } catch { }
 
         }
@@ -4361,6 +4362,16 @@ namespace cAlgo.Robots
             MetalsTP = metalsTP;
         }
 
+        private void OnPositionsOpened(PositionOpenedEventArgs args)
+        {
+            try
+            {
+                if (args.Position.SymbolName != SymbolName) return;
+                Log(LogLevel.Debug, $"Position opened: {args.Position.Label} {args.Position.TradeType} vol={args.Position.VolumeInUnits:F2} @ {args.Position.EntryPrice:F5}");
+            }
+            catch { }
+        }
+
         private void OnPositionsClosed(PositionClosedEventArgs args)
         {
             try
@@ -5539,6 +5550,7 @@ namespace cAlgo.Robots
         protected override void OnStop()
 
         {
+            try { Positions.Opened -= OnPositionsOpened; } catch { }
             try { Positions.Closed -= OnPositionsClosed; } catch { }
             Log(LogLevel.Info, "OnStop invoked");
 
