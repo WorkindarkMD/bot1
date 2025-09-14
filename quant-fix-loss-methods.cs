@@ -301,7 +301,7 @@ namespace cAlgo.Robots
         // ===== Logging =====
         public enum LogLevel { Error = 0, Info = 1, Debug = 2 }
 
-        [Parameter("������� ����������� (0-2)", DefaultValue = 1, MinValue = 0, MaxValue = 2, Group = "19. Logging")]
+        [Parameter("Уровень логирования (0-2)", DefaultValue = 1, MinValue = 0, MaxValue = 2, Group = "19. Logging")]
         public int LogVerbosity { get; set; }
 
 
@@ -380,17 +380,17 @@ namespace cAlgo.Robots
         [Parameter("Комиссия за сторону (на 1 лот, валюта счета)", DefaultValue = 0.0, MinValue = 0.0, Group = "16. Dynamic Targets")]
         public double CommissionPerLotPerSide { get; set; }
 
-        // Range-adaptive targets (��� ������ ���������)
-        [Parameter("���������� TP � ��������", DefaultValue = true, Group = "16. Dynamic Targets")]
+        // Range-adaptive targets (для узкого диапазона)
+        [Parameter("Адаптивные TP/SL", DefaultValue = true, Group = "16. Dynamic Targets")]
         public bool EnableRangeAdaptiveTargets { get; set; }
 
-        [Parameter("���� �������� (���)", DefaultValue = 10, MinValue = 1, MaxValue = 120, Group = "16. Dynamic Targets")]
+        [Parameter("Окно сжатия (мин)", DefaultValue = 10, MinValue = 1, MaxValue = 120, Group = "16. Dynamic Targets")]
         public int RangeCompressionWindowMinutes { get; set; }
 
-        [Parameter("������ ��������� (USD)", DefaultValue = 1.5, MinValue = 0.1, MaxValue = 10.0, Group = "16. Dynamic Targets")]
+        [Parameter("Ширина диапазона (USD)", DefaultValue = 1.5, MinValue = 0.1, MaxValue = 10.0, Group = "16. Dynamic Targets")]
         public double RangeCompressionWidthUSD { get; set; }
 
-        [Parameter("������ TP (USD)", DefaultValue = 1.0, MinValue = 0.1, MaxValue = 10.0, Group = "16. Dynamic Targets")]
+        [Parameter("Адаптивный TP (USD)", DefaultValue = 1.0, MinValue = 0.1, MaxValue = 10.0, Group = "16. Dynamic Targets")]
         public double AdaptiveTpUSD { get; set; }
 
         // --- Auto Close (18) ---
@@ -770,19 +770,19 @@ namespace cAlgo.Robots
         public double MinAnchorVolume { get; set; }
 
         // Hunter dynamic triggering in compression + pseudo-imbalance when L2 is thin/empty
-        [Parameter("� ����������: ������� ����� Hunter", DefaultValue = true, Group = "10. Team Settings")]
+        [Parameter("В сжатии: динамический порог Hunter", DefaultValue = true, Group = "10. Team Settings")]
         public bool EnableHunterDynamicThreshold { get; set; }
 
-        [Parameter("��������� ������ � ���������� (0.1�1.0)", DefaultValue = 0.7, MinValue = 0.1, MaxValue = 1.0, Group = "10. Team Settings")]
+        [Parameter("Коэф. порога в сжатии (0.1–1.0)", DefaultValue = 0.7, MinValue = 0.1, MaxValue = 1.0, Group = "10. Team Settings")]
         public double HunterThresholdCompressionFactor { get; set; }
 
-        [Parameter("������?�������� ��� ������ L2", DefaultValue = true, Group = "10. Team Settings")]
+        [Parameter("Псевдодисбаланс при пустом L2", DefaultValue = true, Group = "10. Team Settings")]
         public bool EnablePseudoImbalanceWhenL2Empty { get; set; }
 
-        [Parameter("������?��������, % (���� �� ������ LTF)", DefaultValue = 45, MinValue = 0, MaxValue = 100, Group = "10. Team Settings")]
+        [Parameter("Порог псевдодисбаланса, % (если нет LTF)", DefaultValue = 45, MinValue = 0, MaxValue = 100, Group = "10. Team Settings")]
         public int PseudoImbalancePercent { get; set; }
 
-        [Parameter("������?�������� ������ � ����������", DefaultValue = true, Group = "10. Team Settings")]
+        [Parameter("Псевдодисбаланс только в сжатии", DefaultValue = true, Group = "10. Team Settings")]
         public bool PseudoImbalanceOnlyInCompression { get; set; }
 
         #endregion
@@ -846,22 +846,22 @@ namespace cAlgo.Robots
         public int MaxTrapHoldSeconds { get; set; }
 
         // HTF Reversal Scalper (Variant B: Profile touch/false-break + flow flip)
-        [Parameter("�������� HTF Reversal ������", DefaultValue = true, Group = "13. Conflict Scalping")]
+        [Parameter("Скалпер разворота HTF", DefaultValue = true, Group = "13. Conflict Scalping")]
         public bool EnableHtfReversalScalper { get; set; }
 
-        [Parameter("HTF ��� ��������� (0=M1, 1=M5)", DefaultValue = 1, MinValue = 0, MaxValue = 1, Group = "13. Conflict Scalping")]
+        [Parameter("HTF для сигнала (0=M1, 1=M5)", DefaultValue = 1, MinValue = 0, MaxValue = 1, Group = "13. Conflict Scalping")]
         public int HtfReversalIndex { get; set; }
 
-        [Parameter("HTF ���� (����)", DefaultValue = 10, MinValue = 3, MaxValue = 200, Group = "13. Conflict Scalping")]
+        [Parameter("HTF окно (бары)", DefaultValue = 10, MinValue = 3, MaxValue = 200, Group = "13. Conflict Scalping")]
         public int HtfReversalLookback { get; set; }
 
-        [Parameter("����� ������ (���� ATR)", DefaultValue = 0.20, MinValue = 0.0, MaxValue = 2.0, Group = "13. Conflict Scalping")]
+        [Parameter("Буфер уровня (доля ATR)", DefaultValue = 0.20, MinValue = 0.0, MaxValue = 2.0, Group = "13. Conflict Scalping")]
         public double HtfLevelBufferAtr { get; set; }
 
-        [Parameter("��������� ����� ����� ?", DefaultValue = true, Group = "13. Conflict Scalping")]
+        [Parameter("Требовать смену знака Delta", DefaultValue = true, Group = "13. Conflict Scalping")]
         public bool HtfRequireDeltaSignFlip { get; set; }
 
-        [Parameter("��������� ����� ������� L2", DefaultValue = true, Group = "13. Conflict Scalping")]
+        [Parameter("Требовать смену наклона L2", DefaultValue = true, Group = "13. Conflict Scalping")]
         public bool HtfRequireImbSlopeFlip { get; set; }
 
         [Parameter("HTFScalp SL (ATR)", DefaultValue = 1.0, MinValue = 0.1, MaxValue = 5.0, Group = "13. Conflict Scalping")]
@@ -1148,7 +1148,7 @@ namespace cAlgo.Robots
                         tp = NormalizePrice(adjustedTp);
                 }
 
-                // ������� TP � ������ ��������
+                // Коррекция TP при сжатом диапазоне
                 var compressed = MaybeCompressTp(tradeType, entryPrice, (tp, sl));
                 return compressed;
             }
@@ -1162,7 +1162,7 @@ namespace cAlgo.Robots
             }
         }
 
-        // === ���������� TP ��� �������� ===
+        // === Адаптивный TP при сжатии ===
         private bool IsRangeCompressed()
         {
             try
@@ -1179,7 +1179,7 @@ namespace cAlgo.Robots
                     if (b.High > maxH) maxH = b.High;
                     if (b.Low < minL) minL = b.Low;
                 }
-                double width = maxH - minL; // � �������� ���� (��� XAUUSD ? USD)
+                double width = maxH - minL; // в валюте символа (для XAUUSD — USD)
                 bool compressed = width <= Math.Max(0.01, RangeCompressionWidthUSD);
                 if (compressed) Log(LogLevel.Debug, $"Диапазон сжат: ширина={width:F2} ≤ {RangeCompressionWidthUSD:F2} за {need}м");
                 return compressed;
@@ -1192,7 +1192,7 @@ namespace cAlgo.Robots
             try
             {
                 if (!IsRangeCompressed()) return null;
-                double pips = AdaptiveTpUSD / Symbol.PipSize; // ����. 1.0$ / 0.01 = 100 ������
+                double pips = AdaptiveTpUSD / Symbol.PipSize; // напр.: 1.0$ / 0.01 = 100 пунктов
                 return Math.Max(1.0, pips);
             }
             catch { return null; }
@@ -3229,7 +3229,7 @@ namespace cAlgo.Robots
             var takeProfit = tradeType == TradeType.Buy ?
                 entryApprox + _atr.Result.LastValue * 0.5 :
                 entryApprox - _atr.Result.LastValue * 0.5;
-            // ������ TP ��� ��������
+            // Коррекция TP при сжатом диапазоне
             try
             {
                 if (EnableRangeAdaptiveTargets && IsRangeCompressed())
@@ -4061,7 +4061,7 @@ namespace cAlgo.Robots
                 int sign = 0;
                 if (_lowerTFAnalysis != null && _lowerTFAnalysis.IsValid)
                 {
-                    // Map trend to the model�s sign convention: positive imbalance currently triggers Sell in logic,
+                    // Map trend to the model's sign convention: positive imbalance currently triggers Sell in logic,
                     // so Bullish trend should yield negative value to trigger Buy; Bearish -> positive for Sell.
                     sign = _lowerTFAnalysis.Trend == TrendDirection.Bullish ? -1 :
                            _lowerTFAnalysis.Trend == TrendDirection.Bearish ? 1 :
@@ -4452,7 +4452,7 @@ namespace cAlgo.Robots
                 var cmd = EnableParallelTeam ? EvaluateTeamRequest(TeamRole.Scalper, lotsReq, signal) : CaptainCommand.Proceed;
                 if (cmd != CaptainCommand.Proceed)
                 {
-                    if (_scalper != null) _scalper.StatusMessage = "�������� �������� (HTF)";
+                    if (_scalper != null) _scalper.StatusMessage = "Отказ капитана (HTF)";
                     return false;
                 }
                 // Margin reserve for Hunter
@@ -4461,7 +4461,7 @@ namespace cAlgo.Robots
                     double est = EstimatedMarginForLots(signal, lotsReq);
                     if (!HasMarginAfterReserve(est))
                     {
-                        if (_scalper != null) _scalper.StatusMessage = "����� �������� (������ ��� Hunter)";
+                        if (_scalper != null) _scalper.StatusMessage = "Недостаточно маржи (резерв для Hunter)";
                         return false;
                     }
                 }
@@ -4499,15 +4499,15 @@ namespace cAlgo.Robots
                     {
                         _scalper.ActionsToday++;
                         _scalper.LastAction = DateTime.Now;
-                        _scalper.StatusMessage = $"HTF-������: {signal}";
+                        _scalper.StatusMessage = $"HTF-скальп: {signal}";
                     }
-                    Print($"? HTF Reversal scalp ������: {signal}");
+                    Print($"HTF-скальп: {signal}");
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                Print($"������ HTF-�������: {ex.Message}");
+                Print($"Ошибка HTF-сделки: {ex.Message}");
             }
             return false;
         }
